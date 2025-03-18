@@ -13,7 +13,7 @@ function Self({ data, roll }) {
   }, [data, roll]);
 
   return (
-    <div className="p-6">
+    <div className="p-6 overflow-x-scroll">
       {self ? (
         <div className="overflow-x-auto">
           <table className="w-full border border-gray-300 shadow-lg rounded-lg overflow-hidden">
