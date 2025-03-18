@@ -103,18 +103,18 @@ function Self({ data, roll }) {
 
 
 <div>
-  <ol className="text-lg font-semibold text-gray-600 p-4 text-justify font-sans ">
+  <ol className="text-lg font-semibold text-gray-600 p-2 text-justify font-sans ">
     {our.map((obj, index) => {
 
       // Ensure obj is an object before iterating
       return typeof obj === "object" ? (
         Object.entries(obj).map(([key, value]) => (
-          <li key={`${index}-${key}`}>
+          <li className="p-2" key={`${index}-${key}`}>
             <strong>{index+1}</strong>: {typeof value === "object" ? "Object" : value}
           </li>
         ))
       ) : (
-        <li key={index+1}> {index+1}: {obj}</li> // If obj is a string, print it directly
+        <li className="p-2" key={index+1}> {index+1}: {obj}</li> // If obj is a string, print it directly
       );
     })}
   </ol>
