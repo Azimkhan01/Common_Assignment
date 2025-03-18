@@ -4,85 +4,41 @@ function Self({ data, roll }) {
   const [self, setSelf] = useState([]);
 
   useEffect(() => {
-    // Convert roll number to Number for comparison
     const matchedStudent = data.find(
       (element) => Number(element["ROLL NO"]) === Number(roll)
     );
-
-    if (matchedStudent) {
-      setSelf([matchedStudent]);
-    } else {
-      setSelf([]);
-    }
+    setSelf(matchedStudent ? [matchedStudent] : []);
   }, [data, roll]);
 
   return (
-    <div className="p-6">
+    <div className="flex flex-col items-center w-full p-4">
       {self.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="w-full border border-gray-300 shadow-lg rounded-lg overflow-hidden">
-            <thead className="bg-blue-600 text-white">
-              <tr>
-                <th className="p-3 border border-gray-500">Name</th>
-                <th className="p-3 border border-gray-500">Roll No</th>
-                <th className="p-3 border border-gray-500">Unit 1</th>
-                <th className="p-3 border border-gray-500">Unit 1</th>
-                <th className="p-3 border border-gray-500">Unit 2</th>
-                <th className="p-3 border border-gray-500">Unit 2</th>
-                <th className="p-3 border border-gray-500">Unit 3</th>
-                <th className="p-3 border border-gray-500">Unit 3</th>
-                <th className="p-3 border border-gray-500">Unit 4</th>
-                <th className="p-3 border border-gray-500">Unit 4</th>
-                <th className="p-3 border border-gray-500">Unit 5</th>
-                <th className="p-3 border border-gray-500">Unit 5</th>
+        <div className="w-full overflow-x-auto">
+          <table className="w-full min-w-[700px] border border-gray-300 shadow-lg rounded-lg">
+            <thead className="bg-blue-600 text-white text-sm md:text-base">
+              <tr className="flex w-full">
+                {["Name", "Roll No", "Unit 1", "Empty 1", "Unit 2", "Empty 2", "Unit 3", "Empty 3", "Unit 4", "Empty 4", "Unit 5", "Empty 5"].map((header, idx) => (
+                  <th key={idx} className="p-3 border border-gray-500 flex-1 text-center">
+                    {header}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
               {self.map((student, index) => (
-                <tr key={index} className="bg-gray-100 even:bg-white">
-                  <td className="p-3 border border-gray-300">
-                    {student["NAME OF THE STUDENT"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["ROLL NO"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["Unit 1"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["__EMPTY"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["Unit 2"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["__EMPTY_1"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["Unit 3"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["__EMPTY_2"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["Unit 4"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["__EMPTY_3"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["Unit 5"] || "-"}
-                  </td>
-                  <td className="p-3 border border-gray-300">
-                    {student["__EMPTY_4"] || "-"}
-                  </td>
+                <tr key={index} className="flex w-full bg-gray-100 even:bg-white">
+                  {["NAME OF THE STUDENT", "ROLL NO", "Unit 1", "__EMPTY", "Unit 2", "__EMPTY_1", "Unit 3", "__EMPTY_2", "Unit 4", "__EMPTY_3", "Unit 5", "__EMPTY_4"].map((field, idx) => (
+                    <td key={idx} className="p-3 border border-gray-300 flex-1 text-center">
+                      {student[field] || "-"}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       ) : (
-        <h1 className="text-center text-xl font-semibold text-red-600 mt-4">
+        <h1 className="text-center text-lg md:text-xl font-semibold text-red-600 mt-4">
           No Roll Found, Please Check!
         </h1>
       )}
