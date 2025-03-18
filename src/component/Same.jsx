@@ -6,6 +6,7 @@ function Same({ data, roll }) {
   const [highMatchCollect, setHighMatchCollect] = useState([]);
 
   useEffect(() => {
+    // Find the student with the matching roll number
     const foundPerson = data.find((obj) => Number(obj["ROLL NO"]) === Number(roll));
     setPerson(foundPerson || null);
   }, [data, roll]);
@@ -13,6 +14,8 @@ function Same({ data, roll }) {
   useEffect(() => {
     if (person) {
       let valuesArray = Object.values(person);
+      console.log("Before processing:", valuesArray);
+
       let tempCollect = [];
       let tempHighMatchCollect = [];
 
@@ -21,7 +24,9 @@ function Same({ data, roll }) {
           let matchCount = 0;
           let matchedValues = [];
 
-          ["Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5",
+          // Check for matches in all required fields
+          [
+            "Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5",
             "__EMPTY", "__EMPTY_1", "__EMPTY_2", "__EMPTY_3", "__EMPTY_4"
           ].forEach((field) => {
             if (obj[field] && valuesArray.includes(obj[field])) {
@@ -47,36 +52,42 @@ function Same({ data, roll }) {
   const isHighlighted = (value) => person && Object.values(person).includes(value);
 
   return (
-    <div className="container mx-auto p-6 min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+    <div>
       {person ? (
         <>
-          <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-200 border-b-2 border-gray-500 pb-2">
-            Matching Data for Roll No: <span className="text-green-400">{person["ROLL NO"]}</span>
+          <h1 className="text-lg font-bold mb-4">
+            Matching Data for Roll No: {person["ROLL NO"]}
           </h1>
 
+          {/* First Table: All Matching Entries */}
           {collect.length > 0 ? (
-            <div className="mb-12">
-              <h2 className="text-xl font-semibold mb-4 text-green-400 border-b border-green-500 pb-1">
-                All Matching Entries
-              </h2>
-              <div className="overflow-x-auto bg-gray-800 rounded-lg shadow-lg">
-                <table className="w-full text-left border border-gray-700 rounded-lg">
-                  <thead className="bg-gray-900 text-green-400">
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold mb-2 text-blue-600">All Matching Entries</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full border border-gray-300 shadow-lg rounded-lg overflow-hidden">
+                  <thead className="bg-green-600 text-white">
                     <tr>
-                      <th className="p-4 border border-gray-700">Name</th>
-                      <th className="p-4 border border-gray-700">Roll No</th>
-                      {["Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5"].map((title, idx) => (
-                        <th key={idx} className="p-4 border border-gray-700">{title}</th>
-                      ))}
+                      <th className="p-3 border border-gray-500">Name</th>
+                      <th className="p-3 border border-gray-500">Roll No</th>
+                      <th className="p-3 border border-gray-500">Unit 1</th>
+                      <th className="p-3 border border-gray-500">Empty 1</th>
+                      <th className="p-3 border border-gray-500">Unit 2</th>
+                      <th className="p-3 border border-gray-500">Empty 2</th>
+                      <th className="p-3 border border-gray-500">Unit 3</th>
+                      <th className="p-3 border border-gray-500">Empty 3</th>
+                      <th className="p-3 border border-gray-500">Unit 4</th>
+                      <th className="p-3 border border-gray-500">Empty 4</th>
+                      <th className="p-3 border border-gray-500">Unit 5</th>
+                      <th className="p-3 border border-gray-500">Empty 5</th>
                     </tr>
                   </thead>
                   <tbody>
                     {collect.map((student, index) => (
-                      <tr key={index} className="even:bg-gray-800 hover:bg-gray-700 transition">
-                        <td className="p-4 border border-gray-700 font-semibold">{student["NAME OF THE STUDENT"] || "-"}</td>
-                        <td className="p-4 border border-gray-700 font-semibold">{student["ROLL NO"] || "-"}</td>
-                        {["Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5"].map((field, idx) => (
-                          <td key={idx} className={`p-4 border border-gray-700 ${isHighlighted(student[field]) ? "bg-green-500 text-black font-bold" : ""}`}>
+                      <tr key={index} className="bg-gray-100 even:bg-white">
+                        <td className="p-3 border border-gray-300">{student["NAME OF THE STUDENT"] || "-"}</td>
+                        <td className="p-3 border border-gray-300">{student["ROLL NO"] || "-"}</td>
+                        {["Unit 1", "__EMPTY", "Unit 2", "__EMPTY_1", "Unit 3", "__EMPTY_2", "Unit 4", "__EMPTY_3", "Unit 5", "__EMPTY_4"].map((field, idx) => (
+                          <td key={idx} className={`p-3 border border-gray-300 ${isHighlighted(student[field]) ? "bg-green-300" : ""}`}>
                             {student[field] || "-"}
                           </td>
                         ))}
@@ -87,29 +98,30 @@ function Same({ data, roll }) {
               </div>
             </div>
           ) : (
-            <h1 className="text-center text-lg font-semibold text-green-500">No Matching Data Found!</h1>
+            <h1 className="text-center text-xl font-semibold text-red-600 mt-4">
+              No Matching Data Found!
+            </h1>
           )}
 
+          {/* Second Table: Rows with 3 or More Matches */}
           {highMatchCollect.length > 0 ? (
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold mb-4 text-yellow-400 border-b border-yellow-500 pb-1">
-                Rows with 3+ Matches
-              </h2>
-              <div className="overflow-x-auto bg-gray-800 rounded-lg shadow-lg">
-                <table className="w-full text-left border border-gray-700 rounded-lg">
-                  <thead className="bg-gray-900 text-yellow-400">
+            <div>
+              <h2 className="text-lg font-semibold mb-2 text-red-600">Rows with 3+ Matches (Highlighted)</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full border border-gray-300 shadow-lg rounded-lg overflow-hidden">
+                  <thead className="bg-red-600 text-white">
                     <tr>
-                      <th className="p-4 border border-gray-700">Name</th>
-                      <th className="p-4 border border-gray-700">Roll No</th>
-                      <th className="p-4 border border-gray-700">Matches</th>
+                      <th className="p-3 border border-gray-500">Name</th>
+                      <th className="p-3 border border-gray-500">Roll No</th>
+                      <th className="p-3 border border-gray-500">Matches</th>
                     </tr>
                   </thead>
                   <tbody>
                     {highMatchCollect.map((student, index) => (
-                      <tr key={index} className="bg-yellow-500 text-black font-bold hover:bg-yellow-400 transition">
-                        <td className="p-4 border border-gray-700">{student["NAME OF THE STUDENT"] || "-"}</td>
-                        <td className="p-4 border border-gray-700">{student["ROLL NO"] || "-"}</td>
-                        <td className="p-4 border border-gray-700">{student.matchCount} Matches</td>
+                      <tr key={index} className="bg-green-300">
+                        <td className="p-3 border border-gray-300">{student["NAME OF THE STUDENT"] || "-"}</td>
+                        <td className="p-3 border border-gray-300">{student["ROLL NO"] || "-"}</td>
+                        <td className="p-3 border border-gray-300 font-bold">{student.matchCount} Matches</td>
                       </tr>
                     ))}
                   </tbody>
@@ -117,11 +129,15 @@ function Same({ data, roll }) {
               </div>
             </div>
           ) : (
-            <h1 className="text-center text-lg font-semibold text-yellow-400">No Rows with 3+ Matches Found!</h1>
+            <h1 className="text-center text-xl font-semibold text-red-600 mt-4">
+              No Rows with 3 or More Matches Found!
+            </h1>
           )}
         </>
       ) : (
-        <h1 className="text-center text-lg font-semibold text-red-400">No Data Found for Given Roll No!</h1>
+        <h1 className="text-center text-xl font-semibold text-red-600 mt-4">
+          No Data Found for Given Roll No!
+        </h1>
       )}
     </div>
   );

@@ -8,7 +8,7 @@ const App = () => {
   const [roll, setRoll] = useState("");
 
   return (
-    <div className="p-4 w-full min-h-screen bg-gray-100 flex flex-col items-center">
+    <div className="p-4 w-full  bg-gray-100 flex flex-col items-center">
       <div className="flex flex-col md:flex-row justify-center items-center gap-2 w-full max-w-md text-center">
         <h2 className="text-lg font-semibold text-gray-800">Enter Your Roll Number:</h2>
         <input
