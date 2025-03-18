@@ -14,7 +14,7 @@ function Self({ data, roll }) {
     <div className="flex flex-col items-center w-full p-4">
       {self.length > 0 ? (
         <div className="w-full overflow-x-auto">
-          <table className="w-full min-w-[700px] border border-gray-300 shadow-lg rounded-lg">
+          <table className="w-full  border border-gray-300 shadow-lg rounded-lg">
             <thead className="bg-blue-600 text-white text-sm md:text-base">
               <tr className="flex w-full">
                 {["Name", "Roll No", "Unit 1", "Empty 1", "Unit 2", "Empty 2", "Unit 3", "Empty 3", "Unit 4", "Empty 4", "Unit 5", "Empty 5"].map((header, idx) => (
