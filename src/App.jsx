@@ -4,6 +4,7 @@ import Same from "./component/Same";
 import data from "./controller/output.js";
 
 const App = () => {
+  document.title = "CCF Tools"
   const [dat] = useState(data);
   const [roll, setRoll] = useState("");
 
